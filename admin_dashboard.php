@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("config.php"); 
+//Si l'utilisateur n'est pas admin → on le déconnecte et on le renvoie au login
 
 if(
    !isset($_SESSION['role']) ||
