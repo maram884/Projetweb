@@ -1,9 +1,11 @@
 <?php
+//Ce script permet à un administrateur de modifier un produit, avec possibilité de :changer le nom ,remplacer l’image ,supprimer l’ancienne image du serveur
 session_start();
 include("config.php");
 
-if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { header("Location: login.php"); exit(); }
+if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { header("Location: login.php"); exit(); } //vérifie que l’utilisateur est connecté et qu’il est admin.
 
+//On récupère l’ID du produit depuis l’URL
 $id = intval($_GET['id']);
 $res = mysqli_query($conn, "SELECT * FROM produits WHERE id = $id");
 $product = mysqli_fetch_assoc($res);
