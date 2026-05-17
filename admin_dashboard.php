@@ -1,8 +1,11 @@
 <?php
+// Démarre la session utilisateur (pour savoir qui est connecté)---
 session_start();
-include("config.php"); 
-//Si l'utilisateur n'est pas admin → on le déconnecte et on le renvoie au login
 
+//Connexion à la base de données MySQL
+include("config.php"); 
+
+//Si l'utilisateur n'est pas admin → on le déconnecte et on le renvoie au login
 if(
    !isset($_SESSION['role']) ||
    $_SESSION['role'] !== 'admin'
@@ -14,29 +17,39 @@ if(
 }
 
 // --- TRAITEMENT DE L'UPLOAD PRODUIT ---
-$message = "";
+$message = ""; //// variable pour afficher succès ou erreur
 
+// si on clique sur le bouton "ajouter_produit"
 if(isset($_POST['ajouter_produit'])) {
+    // récupérer le nom du produit
     $nom_p = mysqli_real_escape_string($conn, $_POST['nom_p']);
+   // dossier où stocker les images
     $dossier = "images/menu/"; 
+   // si le dossier n'existe pas, on le crée
     if (!is_dir($dossier)) mkdir($dossier, 0777, true);
-
+  // création d’un nom unique pour l’image
     $nom_image = time() . "_" . basename($_FILES["image_p"]["name"]);
+ // chemin final de stockage  
     $chemin_final = $dossier . $nom_image;
-
+ // si une image est bien envoyée
     if(!empty($_FILES["image_p"]["name"])) {
         if(move_uploaded_file($_FILES["image_p"]["tmp_name"], $chemin_final)) {
+           // insertion dans la base de données
             $sql = "INSERT INTO produits (nom, image_path) VALUES ('$nom_p', '$chemin_final')";
             mysqli_query($conn, $sql);
+           // message succès
             $message = "<div class='alert-success'>Produit ajouté avec succès !</div>";
         } else {
+            // message erreur upload
             $message = "<div class='alert-error'>Erreur lors du téléchargement de l'image.</div>";
         }
     }
 }
 
 // --- CALCUL DES STATISTIQUES ---
+// compter les utilisateurs (role = user)
 $total_users = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM users WHERE role='user'"));
+// compter toutes les réservations
 $total_res = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM reservations"));
 ?>
 
