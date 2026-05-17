@@ -1,7 +1,7 @@
 <?php
-include("config.php");
+include("config.php"); //Connexion base de données
 
-$result = mysqli_query($conn, "SELECT * FROM reservations ORDER BY id DESC");
+$result = mysqli_query($conn, "SELECT * FROM reservations ORDER BY id DESC"); //prendre toutes les réservationsles trier du plus récent au plus ancien
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +58,7 @@ th{
 </tr>
 
 <?php
+/// prendre une réservationla mettre dans $row
 while($row = mysqli_fetch_assoc($result))
 {
 ?>
