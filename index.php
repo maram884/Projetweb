@@ -57,19 +57,19 @@ include("config.php");
     <div class="contenu">
 
 <?php
-
+//On récupère tous les produits depuis la base de données,triés du plus récent au plus ancien
 $sql = "SELECT * FROM produits ORDER BY id DESC";
 
 $result = mysqli_query($conn, $sql);
-
+//On parcourt chaque produit
 while($row = mysqli_fetch_assoc($result)) {
-
+// chaque produit affiche son nom et son  image 
 ?>
 
-    <div class="box">
+    <div class="box"> 
 
         <div class="imbox">
-            <img src="<?php echo $row['image_path']; ?>" alt="">
+            <img src="<?php echo $row['image_path']; ?>" alt=""> 
         </div>
 
         <div class="text">
@@ -188,7 +188,8 @@ while($row = mysqli_fetch_assoc($result)) {
             </form>
         </div>
     </section>
-
+    
+//JavaScript (menu mobile)   Ouvrir/fermer menu
     <script type="text/javascript">
         function toggleMenu() {
             const menuToggle = document.querySelector('.menuToggle');
@@ -196,6 +197,7 @@ while($row = mysqli_fetch_assoc($result)) {
             navbar.classList.toggle('active');
             menuToggle.classList.toggle('active');
         }
+    //Le header change de style quand on scroll
 
         window.addEventListener('scroll', function () {
             const header = document.querySelector('header');
